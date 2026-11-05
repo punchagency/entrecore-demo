@@ -36,41 +36,8 @@ import {
 import { toast } from "sonner";
 
 // --- Mock Data ---
-const MOCK_DATA_PRODUCTS = [
-    {
-        id: "dp-1",
-        name: "Customer 360 Unified",
-        description: "Unified view of customer behavior across sales, support, and marketing channels.",
-        owner: "Marketing Team",
-        status: "Published",
-        assets: 12,
-        quality: 98,
-        freshness: "15m ago",
-        tags: ["Customer", "Strategic", "PII"],
-    },
-    {
-        id: "dp-2",
-        name: "Financial Reporting H1 2026",
-        description: "Consolidated financial metrics for H1 2026 reporting and auditing.",
-        owner: "Finance Dept",
-        status: "Draft",
-        assets: 8,
-        quality: 94,
-        freshness: "2h ago",
-        tags: ["Financial", "Strict", "Audit"],
-    },
-    {
-        id: "dp-3",
-        name: "Supply Chain Risk Index",
-        description: "Real-time risk assessment model for global logistics and inventory.",
-        owner: "Logistics Ops",
-        status: "Published",
-        assets: 24,
-        quality: 91,
-        freshness: "5m ago",
-        tags: ["Operational", "Risk", "IoT"],
-    },
-];
+// Demo: a new company has no data products. Production shows a hard-coded sample list.
+const MOCK_DATA_PRODUCTS: Array<{ id: string; name: string; description: string; status: string; owner: string; assets: number; quality: number; freshness: string; tags: string[] }> = [];
 
 export default function DataProductsPage() {
     const [view, setView] = useState<"grid" | "list">("grid");
@@ -304,13 +271,28 @@ export default function DataProductsPage() {
                             <div className="w-24 h-24 rounded-full bg-blue-50 flex items-center justify-center mb-6">
                                 <Database className="w-10 h-10 text-blue-200" />
                             </div>
-                            <h3 className="text-2xl font-black text-gray-900 mb-2">No Data Products Found</h3>
-                            <p className="text-gray-500 max-w-sm mb-8">
-                                We couldn't find any data products matching your search. Try adjusting your filters or create a new one.
-                            </p>
-                            <Button className="h-12 px-8 bg-gray-900 hover:bg-black text-white rounded-xl font-bold uppercase tracking-widest" onClick={clearFilters}>
-                                Clear All Filters
-                            </Button>
+                            {MOCK_DATA_PRODUCTS.length === 0 ? (
+                                // Demo: the company has no data products at all yet (not a filter miss).
+                                <>
+                                    <h3 className="text-2xl font-black text-gray-900 mb-2">No data products yet</h3>
+                                    <p className="text-gray-500 max-w-md mb-8">
+                                        Data products are the governed datasets your workflows and integrations publish. Connect a source and build a workflow, and its output appears here with its owner, quality and freshness.
+                                    </p>
+                                    <Button asChild className="h-12 px-8 bg-gray-900 hover:bg-black text-white rounded-xl font-bold uppercase tracking-widest">
+                                        <Link href="/connectors">Connect a source</Link>
+                                    </Button>
+                                </>
+                            ) : (
+                                <>
+                                    <h3 className="text-2xl font-black text-gray-900 mb-2">No Data Products Found</h3>
+                                    <p className="text-gray-500 max-w-sm mb-8">
+                                        We couldn't find any data products matching your search. Try adjusting your filters or create a new one.
+                                    </p>
+                                    <Button className="h-12 px-8 bg-gray-900 hover:bg-black text-white rounded-xl font-bold uppercase tracking-widest" onClick={clearFilters}>
+                                        Clear All Filters
+                                    </Button>
+                                </>
+                            )}
                         </div>
                     )}
                 </div>

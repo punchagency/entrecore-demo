@@ -1,6 +1,6 @@
 # Demo page structure (IA): draft for review
 
-**Status:** draft, 2026-11-02. Decides what the demo shows and in what order, before screens get built.
+**Status:** draft, 2026-11-02; updated 2026-11-05 (demo now starts on day one). Decides what the demo shows and in what order, before screens get built.
 
 ## The story the demo tells
 
@@ -12,18 +12,18 @@ Worked example in the demo tenant (Larkspur Holdings, made up): invoices arrive 
 
 ## Proposed navigation
 
-| #   | Nav item (ideal)                              | Today in the app                                                                                                    | Today for customers in prod\* | Demo phase                                                            |
-| --- | --------------------------------------------- | ------------------------------------------------------------------------------------------------------------------- | ----------------------------- | --------------------------------------------------------------------- |
-| 1   | **Home**                                      | CoreOS (`/coreos`)                                                                                                  | hidden                        | P1 as-is, P2 redesign as the command centre                           |
-| 2   | **Agents**                                    | Guides (`/guides`)                                                                                                  | hidden                        | P1 done (this proof); P2 adds skills, model and run history per agent |
-| 3   | **Skills**                                    | Static list inside the data-room workflow builder (`skill-library-data.ts`, 15 categories, no API)                  | n/a                           | P2 new page                                                           |
-| 4   | **Model Fleet**                               | Nothing; closest is Training (`/training`, real API) and the hosted-LLM selector in Guides                          | hidden                        | P2 new page, absorbs Training                                         |
-| 5   | **Workflows**                                 | Two areas: `/workflows` (in the sidebar) and `/data-room/workflows` (skill library, canvas, draft-from-description) | hidden                        | P1 as-is; P2 one Workflows area                                       |
-| 6   | **Data Products**                             | `/data-room/data-products` (catalog API)                                                                            | hidden                        | P1 as-is; P2 shows the workflow that produced each one                |
-| 7   | **Data**                                      | Data Intelligence Hub, Connectors                                                                                   | Connectors only               | P1 as-is                                                              |
-| 8   | **Document Intake**                           | DRAT, Abstraction                                                                                                   | yes                           | P1 as-is; shown as a solution built on 3–6                            |
-| —   | Settings, Notifications                       | same                                                                                                                | yes                           | P1 as-is                                                              |
-| —   | Investor Access, Market, Portfolio, Diligence | exist, not in the demo user's nav                                                                                   | hidden                        | Out of the demo                                                       |
+| #   | Nav item (ideal)                              | Today in the app                                                                                                                                                      | Today for customers in prod\* | Demo phase                                                            |
+| --- | --------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------- | --------------------------------------------------------------------- |
+| 1   | **Home**                                      | CoreOS (`/coreos`)                                                                                                                                                    | hidden                        | P1 as-is, P2 redesign as the command centre                           |
+| 2   | **Agents**                                    | Guides (`/guides`)                                                                                                                                                    | hidden                        | P1 done (this proof); P2 adds skills, model and run history per agent |
+| 3   | **Skills**                                    | Static list inside the data-room workflow builder (`skill-library-data.ts`, 15 categories, no API)                                                                    | n/a                           | P2 new page                                                           |
+| 4   | **Model Fleet**                               | Nothing; closest is Training (`/training`, real API) and the hosted-LLM selector in Guides                                                                            | hidden                        | P2 new page, absorbs Training                                         |
+| 5   | **Workflows**                                 | Two areas: `/workflows` (in the sidebar) and `/data-room/workflows` (skill library, canvas, draft-from-description; **no backend**: stored in browser `localStorage`) | hidden                        | P1 as-is; P2 one Workflows area                                       |
+| 6   | **Data Products**                             | `/data-room/data-products` (list is a hard-coded array; the detail page reads the catalog API)                                                                        | hidden                        | P1 as-is; P2 shows the workflow that produced each one                |
+| 7   | **Data**                                      | Data Intelligence Hub, Connectors                                                                                                                                     | Connectors only               | P1 as-is                                                              |
+| 8   | **Document Intake**                           | DRAT, Abstraction                                                                                                                                                     | yes                           | P1 as-is; shown as a solution built on 3–6                            |
+| —   | Settings, Notifications                       | same                                                                                                                                                                  | yes                           | P1 as-is                                                              |
+| —   | Investor Access, Market, Portfolio, Diligence | exist, not in the demo user's nav                                                                                                                                     | hidden                        | Out of the demo                                                       |
 
 \* Verified in `components/app-sidebar.tsx`: in production, users outside the superadmin company only see Abstraction, DRAT, Connectors, Settings and Notifications. So "live" in the roadmap view means _built and on the real API_, not _customers have it_.
 
@@ -42,8 +42,8 @@ One card per model: purpose, base model, version, status, evaluation versus the 
 ## Decisions for you
 
 1. **Rename Guides → Agents** in the demo nav? _(Recommended: yes. It matches how we pitch it.)_
-2. **One Workflows area.** Which of the two builders is the one going forward? I'd base the ideal on `/data-room/workflows` (skill library plus draft from a description), but the team should confirm.
-3. **Home page.** Should the demo open on Home (CoreOS) or on Agents? The demo currently opens on Agents (`DEMO_HOME` in `demo/config.ts`).
+2. **One Workflows area.** Which of the two builders is the one going forward? `/workflows` runs on the real API; `/data-room/workflows` has the better design (skill library, draft from a description) but no backend at all (workflows live in `localStorage`). The ideal is likely the data-room design on the `/workflows` API; the team should confirm.
+3. **Home page.** ~~Home (CoreOS) or Agents?~~ Decided 2026-11-05: the demo opens on CoreOS, where the orchestrator welcomes a new company (`DEMO_HOME` in `demo/config.ts`).
 4. **Document Intake as a "solution".** Should DRAT and Abstraction be shown as a solution built from the platform pieces, or as top-level modules as today?
 
 ## Build order after sign-off

@@ -376,11 +376,13 @@ export default function ERDVisualization() {
   const params = useParams<{ id: string }>();
   const tableId = params?.id as string;
 
-  const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
-  const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
+  // Demo: start empty rather than on the built-in sample schema.
+  const [nodes, setNodes, onNodesChange] = useNodesState<Node>([]);
+  const [edges, setEdges, onEdgesChange] = useEdgesState<Edge>([]);
 
   // State management
-  const [isDemoMode, setIsDemoMode] = useState(true);
+  // Demo: start on the company's own (empty) data, not the built-in sample schema.
+  const [isDemoMode, setIsDemoMode] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [realErdData, setRealErdData] = useState<{ nodes: Node[]; edges: Edge[] } | null>(null);
   const [company_id, setCompanyId] = useState<string | null>(null);
@@ -463,12 +465,15 @@ export default function ERDVisualization() {
           setIsDemoMode(false);
           toast.success("ERD data loaded successfully");
         } else {
-          setIsDemoMode(true);
-          toast.error("No ERD data for this company.");
+          // Demo: an empty company shows an empty diagram, not sample data.
+          setNodes([]);
+          setEdges([]);
+          setIsDemoMode(false);
         }
       } else {
-        toast.info("No ERD data found, using demo data");
-        setIsDemoMode(true);
+        setNodes([]);
+        setEdges([]);
+        setIsDemoMode(false);
       }
     } catch (error: any) {
       console.error("Error fetching ERD data:", error);
@@ -540,6 +545,17 @@ export default function ERDVisualization() {
         >
           <Background gap={16} size={1} color="#e5e7eb" />
           <Controls className="bg-card border border-border" />
+          {!isDemoMode && !isLoading && nodes.length === 0 && (
+            <div className="absolute inset-0 z-40 flex items-center justify-center pointer-events-none">
+              <div className="text-center max-w-sm">
+                <Database className="mx-auto mb-3 h-8 w-8 text-slate-300" />
+                <p className="font-semibold text-slate-700">No tables to diagram yet</p>
+                <p className="text-sm text-slate-500 mt-1">
+                  Connect a source and crawl it. Its tables and the relationships between them appear here.
+                </p>
+              </div>
+            </div>
+          )}
           {isDemoMode && (
             <div className="absolute top-4 left-4 z-50">
               <div className="px-3 py-2 bg-yellow-100 text-yellow-800 border border-yellow-300 rounded-md text-sm">
@@ -550,27 +566,7 @@ export default function ERDVisualization() {
           )}
 
           <div className="flex items-center gap-2 absolute top-4 right-4 z-50">
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <button
-                  onClick={toggleDataMode}
-                  disabled={isLoading}
-                  className={`px-3 py-2 backdrop-blur-sm border rounded-md transition-colors disabled:opacity-50 disabled:cursor-not-allowed ${isDemoMode
-                    ? "bg-yellow-100/80 text-yellow-800 border-yellow-300 hover:bg-yellow-100/60"
-                    : "bg-card/80 text-card-foreground border-border hover:bg-card/60"
-                    }`}
-                >
-                  {isDemoMode ? (
-                    <ToggleRight className="h-4 w-4" />
-                  ) : (
-                    <ToggleLeft className="h-4 w-4" />
-                  )}
-                </button>
-              </TooltipTrigger>
-              <TooltipContent>
-                {isDemoMode ? "Switch to real data" : "Switch to demo data"}
-              </TooltipContent>
-            </Tooltip>
+            {/* Demo: the switch to built-in sample data is removed. */}
             <Tooltip>
               <TooltipTrigger asChild>
                 <button

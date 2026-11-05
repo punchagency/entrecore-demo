@@ -1,5 +1,6 @@
 import axios, { type CreateAxiosDefaults } from "axios";
 import { DEMO_API_ORIGIN } from "@/demo/config";
+import { COMPANY_ID } from "@/demo/data/tenant";
 import { handleRequest } from "@/demo/server";
 import { demoAxiosAdapter } from "@/demo/transport/axios-adapter";
 
@@ -21,6 +22,19 @@ if (!globalThis.__ENTRECORE_DEMO_INSTALLED__) {
   axios.defaults.adapter = demoAxiosAdapter;
   const create = axios.create.bind(axios);
   axios.create = (config?: CreateAxiosDefaults) => create({ ...config, adapter: demoAxiosAdapter });
+
+  // Every page load starts the company on day one. The demo server's state lives in
+  // memory and resets on reload; some features keep state in localStorage instead
+  // (e.g. the data-room workflow builder), so clear it here, before any store module
+  // reads it. Session storage (the roadmap view toggle) is left alone.
+  if (typeof window !== "undefined") {
+    try {
+      localStorage.clear();
+      localStorage.setItem("selectedCompanyId", COMPANY_ID);
+    } catch {
+      /* storage unavailable: nothing persisted either */
+    }
+  }
 
   // fetch() to the API goes to the demo server too; anything else (fonts, static
   // demo documents) is fetched normally.

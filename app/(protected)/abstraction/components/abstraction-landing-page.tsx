@@ -25,7 +25,7 @@ export function AbstractionLandingPage() {
     avgSuccessRate: 0,
     totalRecords: 0,
     pendingReview: 0,
-    entitiesTracked: 12,
+    entitiesTracked: 0, // Demo: was a hard-coded 12
   });
 
   useEffect(() => {
@@ -41,7 +41,7 @@ export function AbstractionLandingPage() {
           avgSuccessRate: metricsData.avgSuccessRate,
           totalRecords: metricsData.totalRecords,
           pendingReview: metricsData.pendingReview,
-          entitiesTracked: 12,
+          entitiesTracked: 0, // Demo: was a hard-coded 12
         });
       } catch (error) {
         console.error("Failed to load workflows:", error);
@@ -66,7 +66,7 @@ export function AbstractionLandingPage() {
       avgSuccessRate: metricsData.avgSuccessRate,
       totalRecords: metricsData.totalRecords,
       pendingReview: metricsData.pendingReview,
-      entitiesTracked: 12,
+      entitiesTracked: 0, // Demo: was a hard-coded 12
     });
     setIsLoading(false);
   };

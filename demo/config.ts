@@ -4,8 +4,8 @@
  * same click always gives the same result.
  */
 
-/** Where `/` and a completed login land. */
-export const DEMO_HOME = "/guides";
+/** Where `/` and a completed login land: CoreOS, where the orchestrator welcomes a new company. */
+export const DEMO_HOME = "/coreos";
 
 /** Simulated network latency for every API call (ms). Fixed, so timing is repeatable. */
 export const DEMO_LATENCY_MS = 150;

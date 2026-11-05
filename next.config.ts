@@ -1,7 +1,26 @@
 import type { NextConfig } from "next";
 import path from "path";
 
+// Demo: modules outside the platform the demo shows (older investor/fundraising features
+// and an internal test page). They hold hard-coded sample data, so they redirect home.
+const DEMO_HIDDEN_ROUTES = [
+  "/metrics",
+  "/market",
+  "/portfolio",
+  "/diligence",
+  "/investor-access",
+  "/search",
+  "/workflows/triggers-test",
+];
+
 const nextConfig: NextConfig = {
+  async redirects() {
+    return DEMO_HIDDEN_ROUTES.flatMap((route) => [
+      { source: route, destination: "/", permanent: false },
+      { source: `${route}/:path*`, destination: "/", permanent: false },
+    ]);
+  },
+
   eslint: {
     ignoreDuringBuilds: true,
   },

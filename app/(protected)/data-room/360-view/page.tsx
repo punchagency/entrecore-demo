@@ -18,6 +18,7 @@ import {
   User,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import Link from "next/link";
 import {
   Table,
   TableBody,
@@ -110,7 +111,8 @@ export default function ThreeSixtyViewPage() {
   const { companyId } = useCompanyProfileStore();
   const [searchQuery, setSearchQuery] = useState("");
   const [activeTab, setActiveTab] = useState<"stream" | "attributes" | "ledger">("stream");
-  const [isDemoMode, setIsDemoMode] = useState(true);
+  // Demo: start on the company's own (empty) data, not the built-in sample stream.
+  const [isDemoMode, setIsDemoMode] = useState(false);
   const [page, setPage] = useState(0);
 
   // Use catalog data - direct API call (only when not in demo mode)
@@ -216,9 +218,9 @@ export default function ThreeSixtyViewPage() {
   useEffect(() => {
     if (!isDemoMode && isLoading) {
       const timeout = setTimeout(() => {
+        // Demo: no fallback to built-in sample data; an empty company stays empty.
         if (!catalogData && !queryError) {
-          toast.info("No data available - falling back to demo data");
-          setIsDemoMode(true);
+          console.info("360 View: no data yet");
         }
       }, 2000);
 
@@ -312,6 +314,43 @@ export default function ThreeSixtyViewPage() {
     { label: "Geographic Hub", value: "North America (East)", icon: Globe },
     { label: "Organization", value: "Entrecore Systems Inc.", icon: Briefcase },
   ];
+
+  // Demo: before identity resolution has run there are no unified customer records,
+  // so show how they get created instead of a sample profile.
+  if (!isDemoMode && !canonicalLoading && Array.isArray(canonicalData) && canonicalData.length === 0) {
+    return (
+      <div className="min-h-screen w-full bg-slate-50/50 text-slate-900 p-8 md:p-16">
+        <div className="max-w-7xl mx-auto space-y-10">
+        {/* Header */}
+        <header className="flex flex-col md:flex-row md:items-center justify-between gap-6 bg-white p-8 rounded-3xl border border-slate-200 shadow-sm">
+          <div className="flex items-center gap-6">
+            <div className="w-16 h-16 rounded-2xl bg-indigo-600 flex items-center justify-center shadow-lg shadow-indigo-200">
+              <Shapes className="w-8 h-8 text-white" />
+            </div>
+            <div>
+              <h1 className="text-3xl font-bold text-slate-900">360 View</h1>
+              <p className="text-slate-500 text-lg">Consumer Intelligence Terminal</p>
+            </div>
+          </div>
+
+          </header>
+          <div className="bg-white rounded-3xl border border-slate-200 shadow-sm px-8 py-20 flex flex-col items-center text-center">
+            <div className="w-20 h-20 rounded-full bg-indigo-50 flex items-center justify-center mb-6">
+              <Fingerprint className="w-9 h-9 text-indigo-400" />
+            </div>
+            <h2 className="text-2xl font-bold text-slate-900 mb-2">No unified customer records yet</h2>
+            <p className="text-slate-500 max-w-lg mb-8">
+              360 View shows one profile per customer, resolved across every connected source. Connect your sources,
+              then run the 360 Builder to match and merge customer records into golden records.
+            </p>
+            <Button asChild className="h-11 px-6 rounded-xl">
+              <Link href="/data-room/360-builder">Open the 360 Builder</Link>
+            </Button>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen w-full bg-slate-50/50 text-slate-900 p-8 md:p-16">

@@ -18,3 +18,6 @@ export const ago = (offset: Offset): string => new Date(LOADED_AT - toMs(offset)
 
 /** ISO timestamp for "now" (the moment of the request). */
 export const now = (): string => new Date().toISOString();
+
+/** "Larkspur Holdings" → "Larkspur Holdings'", "Acme" → "Acme's". */
+export const possessive = (name: string): string => (name.endsWith("s") ? `${name}'` : `${name}'s`);

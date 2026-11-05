@@ -695,45 +695,7 @@ export function CreateGuideDialog({ open, onOpenChange }: CreateGuideDialogProps
               >
                 Cancel
               </Button>
-              {createMode === "ai" && (
-                <Button
-                  type="button"
-                  variant="ghost"
-                  onClick={() => {
-                    const mockGuide = {
-                      agent: {
-                        id: "mock-" + Date.now(),
-                        name: formData.name || "Market Insights Guide",
-                        description: "AI-powered analyst specializing in market trends and consumer behavior identification.",
-                      },
-                      model_type: "insight-generator",
-                      status: "inactive",
-                      model_version: "1.0.0-demo",
-                      agent_persona: "Marketing Executive",
-                      specialization: "Predictive Analytics",
-                      metadata_config: {
-                        chat_enabled: true,
-                        use_tools: true,
-                        memory_enabled: true,
-                        data_processing: true,
-                        custom_prompts: {
-                          "Executive Summary": "Focus on ROI and high-level growth drivers.",
-                        },
-                      },
-                      actions: [
-                        { id: "a1", name: "Market Pulse", description: "Real-time tracking of competitor price changes" },
-                        { id: "a2", name: "Trend Forecast", description: "Predictive analysis for the next fiscal quarter" }
-                      ],
-                    };
-                    setGeneratedGuide(mockGuide as any);
-                    setEditingGuide({ ...mockGuide } as any);
-                    toast.success("Demo Mode: Guide generated instantly!");
-                  }}
-                  className="text-[10px] text-gray-400 hover:text-blue-600 font-bold uppercase tracking-widest px-2"
-                >
-                  Demo Mode: skip AI
-                </Button>
-              )}
+              {/* Demo: the "Demo Mode: skip AI" shortcut (a fake generated guide) is removed. */}
               <Button
                 type="submit"
                 disabled={isLoading}

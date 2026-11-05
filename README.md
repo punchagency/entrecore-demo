@@ -13,6 +13,14 @@ It has two jobs:
 
 Started from the production frontend (`entrecoreray` FE, `origin/dev` @ `fee7445`, 2026-10-28).
 
+## Day one
+
+The demo company starts on its **first day on Entrecore**: the account and company exist and onboarding is done, nothing else. Every company-owned list (guides, connectors, catalog, documents, workflows, notifications…) is empty. Only what Entrecore itself provides is there: the connector catalog, the 14 verticals and the company's provisioned knowledge-graph vocabulary, the skill library, trigger types and DRAT defaults. The orchestrator on CoreOS welcomes the company and points to the first step.
+
+Anything a visitor creates lasts until they reload; **every page load starts from day one again** (the demo server's memory and the browser's `localStorage` are both reset).
+
+Modules outside the platform the demo shows (`/metrics`, `/market`, `/portfolio`, `/diligence`, `/investor-access`, `/search`, the triggers test page) redirect home.
+
 ## Run it
 
 ```bash
@@ -31,16 +39,16 @@ app code ──axios / fetch──▶ demo/install.ts ──▶ demo/server ─�
 Socket.IO / WebSocket ◀── demo/realtime (scripted events, e.g. agent replies, run progress)
 ```
 
-| Path                       | What it is                                                                                                                        |
-| -------------------------- | --------------------------------------------------------------------------------------------------------------------------------- |
-| `demo/install.ts`          | Routes all axios and API `fetch` traffic to the demo server. Imported first by `app/config/axios.ts` and `app/config/session.ts`. |
-| `demo/server/`             | Router, in-memory database (resets on reload) and one handler file per product area.                                              |
-| `demo/realtime/`           | Fake Socket.IO client and WebSocket. Handlers push events with `pushSocketIO` / `pushWorkflow` / `playTimeline`.                  |
-| `demo/data/`               | The demo tenant: **Larkspur Holdings**, a made-up company. All dates are relative to page load (`ago({ days: 3 })`).              |
-| `demo/fixtures/recorded/`  | Responses recorded from staging. Generated; don't edit by hand.                                                                   |
-| `demo/roadmap/registry.ts` | Live / partial / roadmap status for each screen, shown in the roadmap view.                                                       |
-| `components/demo/`         | Demo-only UI: auto sign-in and the roadmap view.                                                                                  |
-| `docs/demo/`               | Page structure (IA), and fixes to bring back to the production app.                                                               |
+| Path                       | What it is                                                                                                                                                                                                                                                     |
+| -------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `demo/install.ts`          | Routes all axios and API `fetch` traffic to the demo server. Imported first by `app/config/axios.ts` and `app/config/session.ts`.                                                                                                                              |
+| `demo/server/`             | Router, in-memory database (resets on reload) and one handler file per product area.                                                                                                                                                                           |
+| `demo/realtime/`           | Fake Socket.IO client and WebSocket. Handlers push events with `pushSocketIO` / `pushWorkflow` / `playTimeline`.                                                                                                                                               |
+| `demo/data/`               | `platform.ts`: what Entrecore provides every company (connector catalog, 14 verticals, guide architecture, trigger types), copied from the backend. `tenant.ts`: **Larkspur Holdings**, a made-up company on its first day. `drat-defaults.ts`: DRAT defaults. |
+| `demo/fixtures/recorded/`  | Responses recorded from staging. Generated; don't edit by hand.                                                                                                                                                                                                |
+| `demo/roadmap/registry.ts` | Live / partial / roadmap status for each screen, shown in the roadmap view.                                                                                                                                                                                    |
+| `components/demo/`         | Demo-only UI: auto sign-in and the roadmap view.                                                                                                                                                                                                               |
+| `docs/demo/`               | Page structure (IA), and fixes to bring back to the production app.                                                                                                                                                                                            |
 
 Changes to the original app code that exist only for the demo are kept small and marked with a `Demo:` comment (`grep -rn "// Demo:" app components contexts`). Bugs fixed here that also exist in production are listed in [docs/demo/UPSTREAM_FIXES.md](docs/demo/UPSTREAM_FIXES.md).
 

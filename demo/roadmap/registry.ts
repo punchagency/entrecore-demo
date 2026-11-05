@@ -24,7 +24,7 @@ export const SCREENS: ScreenEntry[] = [
     route: "/guides",
     area: "Agents",
     status: "live",
-    summary: "Agent list, detail, architecture and chat. Answers are scripted per agent in demo/data/agents.ts.",
+    summary: "Guide list, detail, architecture and chat. Day one: no guides; a new guide answers with what it would need (no data yet).",
     backend: [
       "GET/POST/PUT/DELETE /data/guides (routers/agent.py)",
       "GET /data/guides/{id}/architecture (agent/guide_architecture.py)",

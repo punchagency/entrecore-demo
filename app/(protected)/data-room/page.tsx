@@ -40,6 +40,8 @@ import { formatTimeAgo } from "@/utils/formatTimeAgo";
 import { useColumnDataStore } from "@/app/store/columnDataStore";
 import { cn } from "@/lib/utils";
 import { Badge } from "@/components/ui/badge";
+import { useQuery } from "@tanstack/react-query";
+import { Axios } from "@/app/config/axios";
 
 
 
@@ -56,6 +58,14 @@ const DataRoomPage = () => {
   } = useDataCountsStore();
 
   const router = useRouter();
+
+  // Demo: "Active Sources" counts the company's configured connectors (was a hard-coded "18 Handlers").
+  const { data: connectorConfigs } = useQuery({
+    queryKey: ["connector-configs", savedCompanyId],
+    queryFn: async () => (await Axios.get(`/data/connectors/company/${savedCompanyId}/configs`)).data,
+    enabled: Boolean(savedCompanyId),
+  });
+  const handlerCount = Array.isArray(connectorConfigs) ? connectorConfigs.length : 0;
 
   useEffect(() => {
     if (!pathname.includes("/table")) {
@@ -214,7 +224,7 @@ const DataRoomPage = () => {
             </div>
             <div>
               <p className="text-[9px] font-black text-slate-400 uppercase tracking-widest leading-none mb-1">Active Sources</p>
-              <p className="text-sm font-black text-blue-600 leading-none">18 Handlers</p>
+              <p className="text-sm font-black text-blue-600 leading-none">{handlerCount} {handlerCount === 1 ? "Handler" : "Handlers"}</p>
             </div>
           </div>
         </header>
