@@ -1,0 +1,493 @@
+@import "tailwindcss";
+
+@plugin "tailwindcss-animate";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+  --color-sidebar-ring: var(--sidebar-ring);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar: var(--sidebar);
+  --color-chart-5: var(--chart-5);
+  --color-chart-4: var(--chart-4);
+  --color-chart-3: var(--chart-3);
+  --color-chart-2: var(--chart-2);
+  --color-chart-1: var(--chart-1);
+  --color-ring: var(--ring);
+  --color-input: var(--input);
+  --color-border: var(--border);
+  --color-destructive: var(--destructive);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent: var(--accent);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-muted: var(--muted);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-secondary: var(--secondary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary: var(--primary);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-popover: var(--popover);
+  --color-card-foreground: var(--card-foreground);
+  --color-card: var(--card);
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+}
+
+:root {
+  --radius: 0.625rem;
+  --background: oklch(1 0 0);
+  --foreground: oklch(0.145 0 0);
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.145 0 0);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.145 0 0);
+  --primary: #3064f6;
+  --primary-rgb: 48 100 246;
+  --primary-foreground: oklch(0.985 0 0);
+  --secondary: oklch(0.97 0 0);
+  --secondary-foreground: oklch(0.205 0 0);
+  --muted: oklch(0.97 0 0);
+  --muted-foreground: oklch(0.556 0 0);
+  --accent: oklch(0.97 0 0);
+  --accent-foreground: oklch(0.205 0 0);
+  --destructive: oklch(0.577 0.245 27.325);
+  --border: oklch(0.922 0 0);
+  --input: oklch(0.922 0 0);
+  --ring: oklch(0.708 0 0);
+  --chart-1: oklch(0.646 0.222 41.116);
+  --chart-2: oklch(0.6 0.118 184.704);
+  --chart-3: oklch(0.398 0.07 227.392);
+  --chart-4: oklch(0.828 0.189 84.429);
+  --chart-5: oklch(0.769 0.188 70.08);
+  --sidebar: oklch(0.985 0 0);
+  --sidebar-foreground: oklch(0.145 0 0);
+  --sidebar-primary: oklch(0.205 0 0);
+  --sidebar-primary-foreground: oklch(0.985 0 0);
+  --sidebar-accent: oklch(0.97 0 0);
+  --sidebar-accent-foreground: oklch(0.205 0 0);
+  --sidebar-border: oklch(0.922 0 0);
+  --sidebar-ring: oklch(0.708 0 0);
+  --font-eudoxus-sans: "Eudoxus Sans", sans-serif;
+}
+
+* {
+  cursor: pointer;
+}
+
+.dark {
+  --background: oklch(0.145 0 0);
+  --foreground: oklch(0.985 0 0);
+  --card: oklch(0.205 0 0);
+  --card-foreground: oklch(0.985 0 0);
+  --popover: oklch(0.205 0 0);
+  --popover-foreground: oklch(0.985 0 0);
+  --primary: oklch(0.922 0 0);
+  --primary-foreground: oklch(0.205 0 0);
+  --secondary: oklch(0.269 0 0);
+  --secondary-foreground: oklch(0.985 0 0);
+  --muted: oklch(0.269 0 0);
+  --muted-foreground: oklch(0.708 0 0);
+  --accent: oklch(0.269 0 0);
+  --accent-foreground: oklch(0.985 0 0);
+  --destructive: oklch(0.704 0.191 22.216);
+  --border: oklch(1 0 0 / 10%);
+  --input: oklch(1 0 0 / 15%);
+  --ring: oklch(0.556 0 0);
+  --chart-1: oklch(0.488 0.243 264.376);
+  --chart-2: oklch(0.696 0.17 162.48);
+  --chart-3: oklch(0.769 0.188 70.08);
+  --chart-4: oklch(0.627 0.265 303.9);
+  --chart-5: oklch(0.645 0.246 16.439);
+  --sidebar: oklch(0.205 0 0);
+  --sidebar-foreground: oklch(0.985 0 0);
+  --sidebar-primary: oklch(0.488 0.243 264.376);
+  --sidebar-primary-foreground: oklch(0.985 0 0);
+  --sidebar-accent: oklch(0.269 0 0);
+  --sidebar-accent-foreground: oklch(0.985 0 0);
+  --sidebar-border: oklch(1 0 0 / 10%);
+  --sidebar-ring: oklch(0.556 0 0);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+    font-family: var(--font-eudoxus-sans);
+  }
+}
+
+.bg-primary {
+  background-color: var(--primary);
+}
+
+.text-primary {
+  color: var(--primary);
+}
+
+.text-soft-black {
+  color: #181818;
+}
+
+.text-gray {
+  color: #757575;
+}
+
+.border-gray {
+  border-color: #d9dbdd;
+}
+
+.border-primary {
+  border-color: var(--primary);
+}
+
+/* Add these styles to your globals.css */
+.rdp {
+  --rdp-cell-size: 40px;
+  --rdp-accent-color: #0000ff;
+  --rdp-background-color: #e7edff;
+  --rdp-accent-color-dark: #3003e1;
+  --rdp-background-color-dark: #180270;
+  --rdp-outline: 2px solid var(--rdp-accent-color);
+  --rdp-outline-selected: 2px solid var(--rdp-accent-color);
+  margin: 1em;
+}
+
+.rdp-months {
+  display: flex;
+  justify-content: center;
+}
+
+.rdp-month {
+  background-color: #fff;
+  border-radius: 8px;
+  padding: 8px;
+}
+
+.rdp-day_selected,
+.rdp-day_selected:focus-visible,
+.rdp-day_selected:hover {
+  background-color: var(--rdp-accent-color);
+  color: white;
+}
+
+.rdp-day:focus-visible {
+  background-color: var(--rdp-background-color);
+}
+
+.rdp-day_today {
+  font-weight: bold;
+  color: var(--rdp-accent-color);
+}
+
+.CircularProgressbar .CircularProgressbar-path {
+  filter: url(#${shadowId});
+}
+
+.CircularProgressbar .CircularProgressbar-text {
+  font-weight: 900;
+}
+
+.table-row-with-border {
+  border-bottom: 6px solid #EFF4FF;
+  border-radius: 0.625rem;
+}
+
+.table-row-with-border:last-child {
+  border-bottom: none;
+}
+
+/* Word document styles */
+.word-document {
+  font-family: 'Calibri', 'Arial', sans-serif;
+  font-size: 12px;
+  line-height: 1.5;
+  color: #333;
+}
+
+.word-document h1 {
+  font-size: 18px;
+  font-weight: bold;
+  margin-top: 16px;
+  margin-bottom: 8px;
+  color: #2b579a;
+}
+
+.word-document h2 {
+  font-size: 16px;
+  font-weight: bold;
+  margin-top: 14px;
+  margin-bottom: 7px;
+  color: #2b579a;
+}
+
+.word-document h3 {
+  font-size: 14px;
+  font-weight: bold;
+  margin-top: 12px;
+  margin-bottom: 6px;
+  color: #2b579a;
+}
+
+.word-document p {
+  margin-bottom: 8px;
+}
+
+.word-document table {
+  border-collapse: collapse;
+  width: 100%;
+  margin-bottom: 10px;
+}
+
+.word-document td,
+.word-document th {
+  border: 1px solid #ddd;
+  padding: 6px;
+}
+
+.word-document tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+.word-document ul,
+.word-document ol {
+  margin-left: 20px;
+  margin-bottom: 10px;
+}
+
+.word-document img {
+  max-width: 100%;
+  height: auto;
+}
+
+#pdf-controls {
+  display: none;
+}
+
+#pdf-page-info {
+  display: none;
+}
+
+#pdf-page-wrapper {
+  width: 100%;
+}
+
+#pdf-page-wrapper {
+  margin: 0 !important;
+}
+
+.react-pdf__Page__canvas {
+  width: 100% !important;
+  height: 80% !important;
+}
+
+.document-preview {
+  text-wrap: balance;
+  overflow-x: auto;
+}
+
+.excel-preview {
+  @apply h-[180px] flex items-center justify-center;
+  overflow: hidden;
+}
+
+.excel-preview table {
+  @apply w-full border-collapse text-xs;
+}
+
+.excel-preview td,
+.excel-preview th {
+  @apply border border-gray-200 p-2 text-center;
+  max-width: 120px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.pdf-wrapper {
+  position: relative;
+  z-index: 0;
+}
+
+.pdf-wrapper canvas {
+  position: relative;
+  z-index: 0;
+}
+
+.excel-preview th {
+  @apply bg-gray-50 font-medium;
+}
+
+.excel-preview::-webkit-scrollbar-thumb {
+  @apply bg-gray-400 rounded;
+}
+
+.excel-preview::-webkit-scrollbar-track {
+  @apply bg-gray-100;
+}
+
+/* Shimmer animation for progress bar */
+@keyframes fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in {
+  animation: fade-in 0.8s ease-out forwards;
+}
+
+@keyframes gentle-slide-in {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-gentle-slide-in {
+  animation: gentle-slide-in 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+}
+
+@keyframes gentle-slide-up {
+  from {
+    transform: translateY(0);
+  }
+
+  to {
+    transform: translateY(-8px);
+  }
+}
+
+.animate-gentle-slide-up {
+  animation: gentle-slide-up 0.5s ease-out forwards;
+}
+
+.animate-delay-300 {
+  animation-delay: 300ms;
+}
+
+
+
+@keyframes shimmer {
+  0% {
+    transform: translateX(-100%) skewX(-12deg);
+  }
+
+  100% {
+    transform: translateX(200%) skewX(-12deg);
+  }
+}
+
+/* Hide scrollbars while maintaining scroll functionality */
+@layer utilities {
+  .scrollbar-hide {
+    /* Firefox */
+    scrollbar-width: none;
+    /* Safari and Chrome */
+    -ms-overflow-style: none;
+  }
+
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+
+
+}
+
+/* Hide the text layer if you don't need text selection */
+.react-pdf__Page__textContent {
+  display: none;
+}
+
+/* Hide the annotation layer (links, forms) if not needed */
+.react-pdf__Page__annotations {
+  display: none;
+}
+
+/* Ensure the canvas is responsive */
+.react-pdf__Page__canvas {
+  max-width: 100% !important;
+  height: auto !important;
+}
+
+/* ─── NProgress navigation bar ───────────────────────────────────────────── */
+/* Matches the app's primary brand colour (#3064f6) */
+
+#nprogress {
+  pointer-events: none;
+}
+
+#nprogress .bar {
+  background: #3064f6;
+  position: fixed;
+  z-index: 9999;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 2.5px;
+  border-radius: 0 2px 2px 0;
+}
+
+/* Glowing puck at the leading edge */
+#nprogress .peg {
+  display: block;
+  position: absolute;
+  right: 0;
+  width: 100px;
+  height: 100%;
+  box-shadow:
+    0 0 10px #3064f6,
+    0 0 5px #3064f6;
+  opacity: 1;
+  transform: rotate(3deg) translate(0px, -4px);
+}
+
+/* Spinner directly at the front of the line */
+#nprogress .bar::after {
+  content: "";
+  position: absolute;
+  right: -6px; /* Place it exactly at the tip */
+  top: -5px;   /* Center the 12px spinner vertically on the 2.5px bar */
+  width: 12px;
+  height: 12px;
+  border: 2px solid transparent;
+  border-top-color: #3064f6;
+  border-left-color: #3064f6;
+  border-radius: 50%;
+  animation: nprogress-spinner 600ms linear infinite;
+}
+
+@keyframes nprogress-spinner {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Hide the default NProgress top-right spinner */
+#nprogress .spinner {
+  display: none;
+}
+/* ──────────────────────────────────────────────────────────────────────────── */

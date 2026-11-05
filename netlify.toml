@@ -1,0 +1,17 @@
+# Entrecore demo environment. No backend: every API call is answered in the
+# browser by demo/server, so these URLs are deliberately unreachable.
+[build]
+  command = "npm run build"
+  publish = ".next"
+
+[build.environment]
+  NEXT_PUBLIC_API_URL = "https://api.demo.invalid"
+  NEXT_PUBLIC_WS_URL = "wss://api.demo.invalid"
+  NEXT_PUBLIC_APP_ENV = "demo"
+  NPM_FLAGS = "--legacy-peer-deps"
+
+# Shared with prospects by link only; keep it out of search results.
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Robots-Tag = "noindex, nofollow"

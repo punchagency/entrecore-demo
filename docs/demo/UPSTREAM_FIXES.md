@@ -1,0 +1,10 @@
+# Fixes to bring back to the production app
+
+Bugs found while building the demo, fixed here, and still present in the production frontend (`origin/dev` @ `fee7445`). Each fix is small and marked in the code.
+
+| #   | Where                                                                     | Bug                                                                                                                                                                                    | Fix                                                   |
+| --- | ------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------- |
+| 1   | `app/(protected)/guides/page.tsx` (card header, ~line 333)                | The status badge on every guide card always says **"Inactive"**: the text is hard-coded, and only the colour follows `guide.status`.                                                   | `{guide.status === "active" ? "Active" : "Inactive"}` |
+| 2   | `app/(protected)/guides/components/guide-chat-dialog.tsx` (~line 449)     | "Connected to datasets" runs names together ("…FinanceBigQuery…"): the array is rendered without a separator.                                                                          | `.join(", ")`                                         |
+| 3   | `app/(protected)/guides/[id]/components/guide-detail-page.tsx` (~line 41) | Reads `localStorage` during render. Server rendering throws, so the page returns **500** and falls back to rendering in the browser.                                                   | Guard with `typeof window !== "undefined"`            |
+| 4   | same file (~line 48)                                                      | `const { data: guideVerticals = [] }`: a new array every render while the query loads; the effect that depends on it sets state, so it loops (React: "Maximum update depth exceeded"). | Use a module-level constant as the default            |
